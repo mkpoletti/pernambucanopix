@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comprovante de Pix Agendado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #333333;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 120px;
+    }
+    .cnpj {
+      color: #000000;
+      font-size: 16px;
+      text-align: center;
+      font-weight: 300;
+      margin-top: 10px;  
+    }
+    .success {
+      color: #008000;
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .divider {
+      border-top: 1px solid #ccc;
+      margin: 20px 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .value {
+      text-align: right;
+    }
+    .code {
+      font-size: 14px;
+      color: #555;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="https://i.ibb.co/2Q9pnBP/fdfdfd.png" alt="Logo CredFácil">
+  </div>
+  <div class="cnpj">Banco BV S.A.- CNPJ: 01.858.774/0001-10</div>
+  
+  <div class="success">✔ Pagamento Agendado</div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="label">Data do Pagamento:</div>
+    <div class="value" id="data"></div>
+  </div>
+  <div class="row">
+    <div class="label">Valor do Pagamento:</div>
+    <div class="value">R$ 4.600,00</div>
+  </div>
+  <div class="row">
+    <div class="label">Pagador:</div>
+    <div class="value">BV FINANCEIRA</div>
+  </div>
+  <div class="row">
+    <div class="label">Beneficiário:</div>
+    <div class="value" id="beneficiario">---</div>
+  </div>
+  <div class="row">
+    <div class="label">CPF:</div>
+    <div class="value" id="cpf">---</div>
+  </div>
+  <div class="row">
+    <div class="label">Código de Pagamento:</div>
+    <div class="value code" id="codigo"></div>
+  </div>
+  <div class="row">
+    <div class="label">Autenticação:</div>
+    <div class="value code" id="autenticacao"></div>
+  </div>
+
+  <script>
+    // Puxa os parâmetros da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const beneficiario = urlParams.get("beneficiario");
+    const cpf = urlParams.get("cpf");
+
+    // Preenche os campos
+    if (beneficiario) document.getElementById("beneficiario").innerText = beneficiario;
+    if (cpf) document.getElementById("cpf").innerText = cpf;
+
+    // Data e hora atual
+    const now = new Date();
+    const dataFormatada = now.toLocaleDateString() + " " + now.toLocaleTimeString();
+    document.getElementById("data").innerText = dataFormatada;
+
+    // Gerar código de pagamento e autenticação aleatórios
+    function gerarHash(tamanho) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let resultado = "";
+      for (let i = 0; i < tamanho; i++) {
+        resultado += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return resultado;
+    }
+
+    document.getElementById("codigo").innerText = gerarHash(20);
+    document.getElementById("autenticacao").innerText = gerarHash(32);
+  </script>
+</body>
+</html>
